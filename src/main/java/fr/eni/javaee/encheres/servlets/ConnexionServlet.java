@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import fr.eni.javaee.encheres.bo.Utilisateur;
+import fr.eni.javaee.encheres.bll.UtilisateurManager;
 
 @WebServlet("/connexion")
 public class ConnexionServlet extends HttpServlet {
@@ -22,6 +24,17 @@ public class ConnexionServlet extends HttpServlet {
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    // Code pour traiter les données de connexion soumises par le formulaire
+	  connecterUtilisateur(request, response);
+  }
+  
+  private void connecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
+	  UtilisateurManager utilisateurManager = new UtilisateurManager();
+	  Utilisateur utilisateur = new Utilisateur(request.getParameter("identifiant"), request.getParameter("motdepasse"));
+	  
+	  try {
+		  utilisateurManager.connecterUtilisateur(utilisateur);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
   }
 }

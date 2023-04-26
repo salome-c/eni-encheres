@@ -4,6 +4,9 @@ CREATE TABLE utilisateurs (
     password VARCHAR(255) NOT NULL
 );
 
+ALTER TABLE utilisateurs
+ADD CONSTRAINT uc_login UNIQUE (login);
+
 INSERT INTO utilisateurs (login, password) VALUES ('utilisateur', CONVERT(VARCHAR(40),HASHBYTES('SHA1', 'utilisateur'),2));
 
 

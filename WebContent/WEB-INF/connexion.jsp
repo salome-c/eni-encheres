@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>ENI-Enchères</h1>
-    <form action="validation.jsp" method="post">
+    <form action="${pageContext.request.contextPath}/connexion" method="post">
       <label for="identifiant">Identifiant :</label>
       <input type="text" id="identifiant" name="identifiant"><br><br>
       <label for="motdepasse">Mot de passe :</label>

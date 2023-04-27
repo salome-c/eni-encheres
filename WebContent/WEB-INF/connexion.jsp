@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -17,6 +17,9 @@
       <label for="souvenir">Se souvenir de moi</label><br><br>
       <input type="submit" value="Connexion">
     </form>
+	<c:if test="${not empty requestScope.erreurConnexion}">
+	  <div>${requestScope.erreurConnexion}</div>
+	</c:if>
     <br>
     <a href="#">Mot de passe oublié</a><br><br>
     <button onclick="window.location.href='page_creation_compte.jsp'">Créer un compte</button>

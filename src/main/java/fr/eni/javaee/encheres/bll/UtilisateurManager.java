@@ -14,23 +14,27 @@ public class UtilisateurManager {
 		this.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 	
-	public void connecterUtilisateur(Utilisateur utilisateur) {
-		this.utilisateurDAO.connecterUtilisateur(utilisateur);
+	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
+		return this.utilisateurDAO.connecterUtilisateur(utilisateur);
 	}
 	
 	public static String crypterMotDePasse(String motDePasse) {
 		MessageDigest md;
 		StringBuffer sb = new StringBuffer();
-		try {
-			md = MessageDigest.getInstance("SHA1");
-			md.update((motDePasse).getBytes());
-			byte[] passwordByte = md.digest();
-			for (int i = 0; i < passwordByte.length; i++) {
-			    sb.append(String.format("%02X", passwordByte[i] & 0xff));
+		
+		if (motDePasse != null) {
+			try {
+				md = MessageDigest.getInstance("SHA1");
+				md.update((motDePasse).getBytes());
+				byte[] passwordByte = md.digest();
+				for (int i = 0; i < passwordByte.length; i++) {
+				    sb.append(String.format("%02X", passwordByte[i] & 0xff));
+				}
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
 			}
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
 		}
+
 		return sb.toString();
 	}
 }

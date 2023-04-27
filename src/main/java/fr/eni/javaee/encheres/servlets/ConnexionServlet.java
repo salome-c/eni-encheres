@@ -1,6 +1,8 @@
 package fr.eni.javaee.encheres.servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +21,7 @@ public class ConnexionServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+	  	request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +34,15 @@ public class ConnexionServlet extends HttpServlet {
 	  Utilisateur utilisateur = new Utilisateur(request.getParameter("identifiant"), request.getParameter("motdepasse"));
 	  
 	  try {
-		  utilisateurManager.connecterUtilisateur(utilisateur);
+		  Utilisateur utilisateurConnecte = utilisateurManager.connecterUtilisateur(utilisateur);
+		  if (utilisateurConnecte != null) {
+			  request.getSession().setAttribute("utilisateur", utilisateurConnecte);
+			  request.getSession().setAttribute("pseudoUtilisateur", utilisateurConnecte.getPseudo());
+			  request.getRequestDispatcher("/WEB-INF/liste-encheres.jsp").forward(request, response);
+		  } else {
+			  request.setAttribute("erreurConnexion", "Identifiant ou mot de passe incorrect !");
+			  request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+		  }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,38 +1,18 @@
-CREATE TABLE utilisateurs (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    login VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
+CREATE TABLE UTILISATEURS (
+    no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
+    pseudo           VARCHAR(30) NOT NULL UNIQUE,
+    nom              VARCHAR(30) NOT NULL,
+    prenom           VARCHAR(30) NOT NULL,
+    email            VARCHAR(50) NOT NULL UNIQUE,
+    telephone        VARCHAR(15),
+    rue              VARCHAR(30) NOT NULL,
+    code_postal      VARCHAR(10) NOT NULL,
+    ville            VARCHAR(30) NOT NULL,
+    mot_de_passe     VARCHAR(50) NOT NULL,
+    credit           INTEGER NOT NULL,
+    administrateur   bit NOT NULL
+)
 
-ALTER TABLE utilisateurs
-ADD CONSTRAINT uc_login UNIQUE (login);
+ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
 
-INSERT INTO utilisateurs (login, password) VALUES ('utilisateur', CONVERT(VARCHAR(40),HASHBYTES('SHA1', 'utilisateur'),2));
-
-
-
-
-
-
-CREATE TABLE LISTES
-(
-	id int identity(1,1) CONSTRAINT PK_LISTES PRIMARY KEY,
-	nom varchar(50) NOT NULL
-);
-
-CREATE TABLE ARTICLES
-(
-	id int identity(1,1) CONSTRAINT PK_ARTICLES PRIMARY KEY,
-	nom varchar(50) NOT NULL,
-	id_liste int NOT NULL
-);
-
-ALTER TABLE ARTICLES ADD coche bit default 0;
-
-ALTER TABLE ARTICLES
-	ADD CONSTRAINT FK_ARTICLES_LISTES 
-		FOREIGN KEY(id_liste) REFERENCES LISTES(id)
-		ON DELETE CASCADE;
-
-ALTER TABLE ARTICLES
-	DROP CONSTRAINT FK_ARTICLES_LISTES;
+INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES ('utilisateur', 'nom', 'prenom', 'utilisateur@mail.com', 'rue', '00000', 'ville', CONVERT(VARCHAR(40),HASHBYTES('SHA1', 'utilisateur'),2), 0, 1);

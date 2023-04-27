@@ -4,4 +4,7 @@ import fr.eni.javaee.encheres.bo.Utilisateur;
 
 public interface IUtilisateurDAO {
 	public Utilisateur connecterUtilisateur(Utilisateur utilisateur);
+	public void creerUtilisateur(Utilisateur utilisateur);
+	public boolean rechercherPseudoExistant(String pseudo);
+	public boolean rechercherEmailExistant(String email);
 }

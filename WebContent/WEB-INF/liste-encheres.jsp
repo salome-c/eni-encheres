@@ -42,7 +42,7 @@
 			</fieldset>
 			<input type="submit" value="Rechercher">
 		</form>
-		<p><%= session.getAttribute("pseudoUtilisateur") %> est connecté</p>
+		<p>${utilisateur.pseudo} est connecté</p>
 		<ul>
 			<li>
 				<div>

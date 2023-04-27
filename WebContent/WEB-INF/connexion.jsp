@@ -22,6 +22,6 @@
 	</c:if>
     <br>
     <a href="#">Mot de passe oublié</a><br><br>
-    <button onclick="window.location.href='page_creation_compte.jsp'">Créer un compte</button>
+    <a href="${pageContext.request.contextPath}/profil"><button>Créer un compte</button></a>
   </body>
 </html>

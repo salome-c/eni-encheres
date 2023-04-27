@@ -2,7 +2,6 @@ package fr.eni.javaee.encheres.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +28,7 @@ public class ConnexionServlet extends HttpServlet {
 	  connecterUtilisateur(request, response);
   }
   
-  private void connecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
+  private static void connecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
 	  UtilisateurManager utilisateurManager = new UtilisateurManager();
 	  Utilisateur utilisateur = new Utilisateur(request.getParameter("identifiant"), request.getParameter("motdepasse"));
 	  
@@ -37,7 +36,6 @@ public class ConnexionServlet extends HttpServlet {
 		  Utilisateur utilisateurConnecte = utilisateurManager.connecterUtilisateur(utilisateur);
 		  if (utilisateurConnecte != null) {
 			  request.getSession().setAttribute("utilisateur", utilisateurConnecte);
-			  request.getSession().setAttribute("pseudoUtilisateur", utilisateurConnecte.getPseudo());
 			  request.getRequestDispatcher("/WEB-INF/liste-encheres.jsp").forward(request, response);
 		  } else {
 			  request.setAttribute("erreurConnexion", "Identifiant ou mot de passe incorrect !");

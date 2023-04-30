@@ -11,10 +11,15 @@
 		<h1>ENI-Enchères</h1>
 		<nav>
 			<ul>
-				<li><a href="#">Enchères</a></li>
-				<li><a href="#">Vendre un article</a></li>
-				<li><a href="#">Mon profil</a></li>
-				<li><a href="#">Déconnexion</a></li>
+				<c:if test="${not empty utilisateur}">
+					<li><a href="#">Enchères</a></li>
+					<li><a href="#">Vendre un article</a></li>
+					<li><a href="#">Mon profil</a></li>
+					<li><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
+				</c:if>
+				<c:if test="${empty utilisateur}">
+					<li><a href="${pageContext.request.contextPath}/connexion">S'inscrire - Se connecter</a></li>
+				</c:if>
 			</ul>
 		</nav>
 	</header>
@@ -30,19 +35,23 @@
 				<option>Catégorie 2</option>
 				<option>Catégorie 3</option>
 			</select>
-			<fieldset>
-				<label><input type="radio" name="filtre">Achats</label>
-				<label><input type="checkbox" name="achats">Enchères ouvertes</label>
-				<label><input type="checkbox" name="achats">Mes enchères en cours</label>
-				<label><input type="checkbox" name="achats">Mes enchères remportées</label>
-				<label><input type="radio" name="filtre">Mes ventes</label>
-				<label><input type="checkbox" name="ventes">Mes ventes en cours</label>
-				<label><input type="checkbox" name="ventes">Ventes non débutées</label>
-				<label><input type="checkbox" name="ventes">Ventes terminées</label>
-			</fieldset>
+			<c:if test="${not empty utilisateur}">
+				<fieldset>
+					<label><input type="radio" name="filtre">Achats</label>
+					<label><input type="checkbox" name="achats">Enchères ouvertes</label>
+					<label><input type="checkbox" name="achats">Mes enchères en cours</label>
+					<label><input type="checkbox" name="achats">Mes enchères remportées</label>
+					<label><input type="radio" name="filtre">Mes ventes</label>
+					<label><input type="checkbox" name="ventes">Mes ventes en cours</label>
+					<label><input type="checkbox" name="ventes">Ventes non débutées</label>
+					<label><input type="checkbox" name="ventes">Ventes terminées</label>
+				</fieldset>
+			</c:if>
 			<input type="submit" value="Rechercher">
 		</form>
-		<p>${utilisateur.pseudo} est connecté</p>
+		<c:if test="${not empty utilisateur}">
+			<p>${utilisateur.pseudo} est connecté</p>
+		</c:if>
 		<ul>
 			<li>
 				<div>

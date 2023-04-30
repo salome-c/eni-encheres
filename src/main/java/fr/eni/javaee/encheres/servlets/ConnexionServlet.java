@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.bll.UtilisateurManager;
 
-@WebServlet("/connexion")
+@WebServlet(
+		urlPatterns= {
+						"/connexion",
+						"/deconnexion"
+		})
 public class ConnexionServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -20,12 +24,18 @@ public class ConnexionServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-	  	request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+		if (request.getServletPath().equals("/connexion")) {
+			request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/deconnexion")) {
+			deconnecterUtilisateur(request, response);
+		}
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-	  connecterUtilisateur(request, response);
+		if (request.getServletPath().equals("/connexion")) {
+			connecterUtilisateur(request, response);
+		}
   }
   
   private static void connecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
@@ -44,5 +54,14 @@ public class ConnexionServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+  }
+  
+  private static void deconnecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
+	  try {
+		  request.getSession().invalidate();
+		  request.getRequestDispatcher("/liste-encheres").forward(request, response);
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
   }
 }

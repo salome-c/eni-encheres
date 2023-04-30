@@ -5,71 +5,99 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ENI-Enchères</title>
+	<link href="${pageContext.request.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-	<header>
-		<h1>ENI-Enchères</h1>
+<body class="container-fluid">
+	<header class="d-flex justify-content-between align-items-center">
+		<h1 class="m-0">ENI-Enchères</h1>
+		<c:if test="${not empty utilisateur}">
+			<p class="m-0">${utilisateur.pseudo} est connecté</p>
+		</c:if>
 		<nav>
-			<ul>
+			<ul class="d-flex align-items-center m-0">
 				<c:if test="${not empty utilisateur}">
-					<li><a href="#">Enchères</a></li>
-					<li><a href="#">Vendre un article</a></li>
-					<li><a href="#">Mon profil</a></li>
-					<li><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
+					<li class="list-inline-item"><a href="#">Enchères</a></li>
+					<li class="list-inline-item"><a href="#">Vendre un article</a></li>
+					<li class="list-inline-item"><a href="#">Mon profil</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
 				</c:if>
 				<c:if test="${empty utilisateur}">
-					<li><a href="${pageContext.request.contextPath}/connexion">S'inscrire - Se connecter</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/connexion">S'inscrire - Se connecter</a></li>
 				</c:if>
 			</ul>
 		</nav>
 	</header>
-	<main>
-		<h2>Liste des enchères</h2>
-		<form name="filtres">
-			<h3>Filtres :</h3>
-			<input type="text" placeholder="Le nom de l'article contient">
-			<label>Catégorie :</label>
-			<select>
-				<option selected>Toutes</option>
-				<option>Catégorie 1</option>
-				<option>Catégorie 2</option>
-				<option>Catégorie 3</option>
-			</select>
-			<c:if test="${not empty utilisateur}">
-				<fieldset>
-					<label><input type="radio" name="filtre">Achats</label>
-					<label><input type="checkbox" name="achats">Enchères ouvertes</label>
-					<label><input type="checkbox" name="achats">Mes enchères en cours</label>
-					<label><input type="checkbox" name="achats">Mes enchères remportées</label>
-					<label><input type="radio" name="filtre">Mes ventes</label>
-					<label><input type="checkbox" name="ventes">Mes ventes en cours</label>
-					<label><input type="checkbox" name="ventes">Ventes non débutées</label>
-					<label><input type="checkbox" name="ventes">Ventes terminées</label>
-				</fieldset>
-			</c:if>
-			<input type="submit" value="Rechercher">
+	<main class="px-5">
+		<h2 class="text-center my-3">Liste des enchères</h2>
+		<form name="filtres" class="d-flex mb-3">
+			<section class="d-flex flex-column w-50">
+				<section class="w-75">
+					<p>Filtres :</p>
+					<input type="text" placeholder="Le nom de l'article contient" class="w-100">
+					<section class="d-flex justify-content-between my-3">
+						<label>Catégorie :</label>
+						<select>
+							<option selected>Toutes</option>
+							<option>Catégorie 1</option>
+							<option>Catégorie 2</option>
+							<option>Catégorie 3</option>
+						</select>
+					</section>
+				</section>
+				<c:if test="${not empty utilisateur}">
+					<section class="d-flex justify-content-between">
+						<fieldset class="d-flex flex-column">
+							<label><input type="radio" name="filtre">Achats</label>
+							<label><input type="checkbox" name="achats">Enchères ouvertes</label>
+							<label><input type="checkbox" name="achats">Mes enchères en cours</label>
+							<label><input type="checkbox" name="achats">Mes enchères remportées</label>
+						</fieldset>
+						<fieldset class="d-flex flex-column">
+							<label><input type="radio" name="filtre">Mes ventes</label>
+							<label><input type="checkbox" name="ventes">Mes ventes en cours</label>
+							<label><input type="checkbox" name="ventes">Ventes non débutées</label>
+							<label><input type="checkbox" name="ventes">Ventes terminées</label>
+						</fieldset>
+					</section>
+				</c:if>
+			</section>
+			<section class="d-flex justify-content-center align-items-center w-100">
+				<input type="submit" value="Rechercher" class="btn btn-lg">
+			</section>
 		</form>
-		<c:if test="${not empty utilisateur}">
-			<p>${utilisateur.pseudo} est connecté</p>
-		</c:if>
-		<ul>
-			<li>
-				<div>
-					<img src="image1.png" alt="Image article">
-					<h3><a href="#">Nom de l'article</a></h3>
-					<p>Prix : 123 points</p>
-					<p>Fin de l'enchère : 01/01/2024</p>
-					<p>Vendeur : <a href="#">Vendeur1</a></p>
-				</div>
+		<ul class="d-flex justify-content-between flex-wrap p-0">
+			<li class="card p-2 mb-3" style="width: 40rem;">
+				<section class="d-flex justify-content-between">
+					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
+					<section style="width: 20rem;">
+						<a href="#">Nom de l'article</a>
+						<p>Prix : 123 points</p>
+						<p>Fin de l'enchère : 01/01/2024</p>
+						<p>Vendeur : <a href="#">Vendeur1</a></p>
+					</section>
+				</section>
 			</li>
-			<li>
-				<div>
-					<img src="image2.png" alt="Image article">
-					<h3><a href="#">Nom de l'article</a></h3>
-					<p>Prix : 456 points</p>
-					<p>Fin de l'enchère : 02/01/2024</p>
-					<p>Vendeur : <a href="#">Vendeur2</a></p>
-				</div>
+			<li class="card p-2 mb-3" style="width: 40rem;">
+				<section class="d-flex justify-content-between">
+					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
+					<section style="width: 20rem;">
+						<a href="#">Nom de l'article</a>
+						<p>Prix : 123 points</p>
+						<p>Fin de l'enchère : 01/01/2024</p>
+						<p>Vendeur : <a href="#">Vendeur1</a></p>
+					</section>
+				</section>
+			</li>
+			<li class="card p-2 mb-3" style="width: 40rem;">
+				<section class="d-flex justify-content-between">
+					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
+					<section style="width: 20rem;">
+						<a href="#">Nom de l'article</a>
+						<p>Prix : 123 points</p>
+						<p>Fin de l'enchère : 01/01/2024</p>
+						<p>Vendeur : <a href="#">Vendeur1</a></p>
+					</section>
+				</section>
 			</li>
 		</ul>
 	</main>

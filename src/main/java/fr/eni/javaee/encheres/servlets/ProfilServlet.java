@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.bll.UtilisateurManager;
 
-@WebServlet("/profil")
+@WebServlet("/inscription")
 public class ProfilServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -20,12 +20,16 @@ public class ProfilServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-	  	request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+	  	if (request.getServletPath().equals("/inscription")) {
+		  	request.getRequestDispatcher("/WEB-INF/modifier-profil.jsp").forward(request, response);
+		}
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-	  	creerUtilisateur(request, response);
+	  	if (request.getServletPath().equals("/inscription")) {
+		  	creerUtilisateur(request, response);
+		}
   }
   
   private static void creerUtilisateur(HttpServletRequest request, HttpServletResponse response) {
@@ -47,7 +51,7 @@ public class ProfilServlet extends HttpServlet {
 			  response.sendRedirect("liste-encheres");
 		  } else {
 			  request.setAttribute("erreurCreationProfil", infoUtilisateurNonCree);
-			  request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+			  request.getRequestDispatcher("/WEB-INF/modifier-profil.jsp").forward(request, response);
 		  }
 		} catch (Exception e) {
 			e.printStackTrace();

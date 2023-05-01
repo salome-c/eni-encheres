@@ -21,11 +21,19 @@ public class UtilisateurManager {
 	}
 	
 	public String creerUtilisateur(Utilisateur utilisateur) {
-		String infoUtilisateurNonValide = validerCreationUtilisateur(utilisateur);
+		String infoUtilisateurNonValide = validerInfosUtilisateur(utilisateur, true, true);
 		if (infoUtilisateurNonValide == null) {
 			this.utilisateurDAO.creerUtilisateur(utilisateur);
 		}
 		return infoUtilisateurNonValide;
+	}
+	
+	public String modifierUtilisateur(Utilisateur nouvellesInfos, boolean verifierPseudoUnique, boolean verifierMotDePasseUnique) {
+		String infoModificationNonValide = validerInfosUtilisateur(nouvellesInfos, verifierPseudoUnique, verifierMotDePasseUnique);
+		if (infoModificationNonValide == null) {
+			this.utilisateurDAO.modifierUtilisateur(nouvellesInfos);
+		}
+		return infoModificationNonValide;
 	}
 	
 	public static String crypterMotDePasse(String motDePasse) {
@@ -48,7 +56,11 @@ public class UtilisateurManager {
 		return sb.toString();
 	}
 	
-	private String validerCreationUtilisateur(Utilisateur utilisateur) {
+	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse) {
+		return this.utilisateurDAO.verifierMotDePasse(noUtilisateur, motDePasse);
+	}
+	
+	private String validerInfosUtilisateur(Utilisateur utilisateur, boolean verifierPseudoUnique, boolean verifierEmailUnique) {
 		String pseudo = utilisateur.getPseudo();
 		String nom = utilisateur.getNom();
 		String prenom = utilisateur.getPrenom();
@@ -73,12 +85,16 @@ public class UtilisateurManager {
 			return "Certains champs ne sont pas renseignés selon le format attendu";
 		}
 		
-		if (this.utilisateurDAO.rechercherPseudoExistant(pseudo)) {
-			return "Ce pseudo est déjà utilisé";
+		if (verifierPseudoUnique) {
+			if (this.utilisateurDAO.rechercherPseudoExistant(pseudo)) {
+				return "Ce pseudo est déjà utilisé";
+			}
 		}
 		
-		if (this.utilisateurDAO.rechercherEmailExistant(email)) {
-			return "Cet email est déjà utilisé";
+		if (verifierEmailUnique) {
+			if (this.utilisateurDAO.rechercherEmailExistant(email)) {
+				return "Cet email est déjà utilisé";
+			}
 		}
 		
 		return null;

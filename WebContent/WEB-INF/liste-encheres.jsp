@@ -10,15 +10,12 @@
 <body class="container-fluid">
 	<header class="d-flex justify-content-between align-items-center">
 		<h1 class="m-0">ENI-Enchères</h1>
-		<c:if test="${not empty utilisateur}">
-			<p class="m-0">${utilisateur.pseudo} est connecté</p>
-		</c:if>
 		<nav>
 			<ul class="d-flex align-items-center m-0">
 				<c:if test="${not empty utilisateur}">
 					<li class="list-inline-item"><a href="#">Enchères</a></li>
 					<li class="list-inline-item"><a href="#">Vendre un article</a></li>
-					<li class="list-inline-item"><a href="#">Mon profil</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/profil">Mon profil</a></li>
 					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
 				</c:if>
 				<c:if test="${empty utilisateur}">

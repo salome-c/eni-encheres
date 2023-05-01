@@ -14,6 +14,9 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
 	private static final String SELECT_UTILISATEUR_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
 	private static final String SELECT_UTILISATEUR_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email = ?";
+	private static final String SELECT_UTILISATEUR_BY_NO_AND_MOTDEPASSE = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ? AND mot_de_passe = ?";
+	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? "
+			+ "WHERE no_utilisateur = ?";
 
 	@Override
 	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
@@ -78,6 +81,33 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
+	public void modifierUtilisateur(Utilisateur nouvellesInfos) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(UPDATE_UTILISATEUR, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, nouvellesInfos.getPseudo());
+				pstmt.setString(2, nouvellesInfos.getNom());
+				pstmt.setString(3, nouvellesInfos.getPrenom());
+				pstmt.setString(4, nouvellesInfos.getEmail());
+				pstmt.setString(5, nouvellesInfos.getTelephone());
+				pstmt.setString(6, nouvellesInfos.getRue());
+				pstmt.setString(7, nouvellesInfos.getCodePostal());
+				pstmt.setString(8, nouvellesInfos.getVille());
+				pstmt.setString(9, nouvellesInfos.getMotDePasse());
+				pstmt.setInt(10, nouvellesInfos.getNoUtilisateur());
+				pstmt.executeUpdate();
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
 	public boolean rechercherPseudoExistant(String pseudo) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
@@ -105,6 +135,29 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_EMAIL);
 				pstmt.setString(1, email);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return true;
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_NO_AND_MOTDEPASSE);
+				pstmt.setInt(1, noUtilisateur);
+				pstmt.setString(2, motDePasse);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
 					return true;

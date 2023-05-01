@@ -7,4 +7,6 @@ public interface IUtilisateurDAO {
 	public void creerUtilisateur(Utilisateur utilisateur);
 	public boolean rechercherPseudoExistant(String pseudo);
 	public boolean rechercherEmailExistant(String email);
+	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse);
+	public void modifierUtilisateur(Utilisateur nouvellesInfos);
 }

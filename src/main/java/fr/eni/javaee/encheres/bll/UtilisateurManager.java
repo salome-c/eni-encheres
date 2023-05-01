@@ -36,6 +36,10 @@ public class UtilisateurManager {
 		return infoModificationNonValide;
 	}
 	
+	public void supprimerUtilisateur(int noUtilisateur) {
+		this.utilisateurDAO.supprimerUtilisateur(noUtilisateur);
+	}
+	
 	public static String crypterMotDePasse(String motDePasse) {
 		MessageDigest md;
 		StringBuffer sb = new StringBuffer();

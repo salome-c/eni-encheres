@@ -14,7 +14,8 @@ import fr.eni.javaee.encheres.bll.UtilisateurManager;
 		urlPatterns= {
 						"/inscription",
 						"/profil",
-						"/modifier-profil"
+						"/modifier-profil",
+						"/supprimer-profil"
 		})
 public class ProfilServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -29,6 +30,8 @@ public class ProfilServlet extends HttpServlet {
 		  	request.getRequestDispatcher("/WEB-INF/modifier-profil.jsp").forward(request, response);
 		} else if (request.getServletPath().equals("/profil")) {
 		  	request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/supprimer-profil")) {
+			supprimerUtilisateur(request, response);
 		}
   }
 
@@ -108,5 +111,16 @@ public class ProfilServlet extends HttpServlet {
 			  e.printStackTrace();
 		  }
 	  }
+  }
+  
+  private static void supprimerUtilisateur(HttpServletRequest request, HttpServletResponse response) {
+	  UtilisateurManager utilisateurManager = new UtilisateurManager();
+	  Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+	  utilisateurManager.supprimerUtilisateur(utilisateur.getNoUtilisateur());
+	  try {
+		response.sendRedirect("deconnexion");
+	  } catch (IOException e) {
+		e.printStackTrace();
+	}
   }
 }

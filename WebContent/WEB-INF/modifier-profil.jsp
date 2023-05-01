@@ -85,7 +85,7 @@
 				</c:if>
 				<c:if test="${not empty utilisateur}">
 					<input type="submit" value="Enregistrer" class="btn btn-lg">
-					<input type="button" value="Supprimer mon compte" class="btn btn-lg">
+					<a href="${pageContext.request.contextPath}/supprimer-profil"><input type="button" value="Supprimer mon compte" class="btn btn-lg"></a>
 				</c:if>
 			</section>
 

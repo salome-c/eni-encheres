@@ -17,6 +17,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	private static final String SELECT_UTILISATEUR_BY_NO_AND_MOTDEPASSE = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ? AND mot_de_passe = ?";
 	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? "
 			+ "WHERE no_utilisateur = ?";
+	private static final String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 
 	@Override
 	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
@@ -84,7 +85,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	public void modifierUtilisateur(Utilisateur nouvellesInfos) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
-				PreparedStatement pstmt = cnx.prepareStatement(UPDATE_UTILISATEUR, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement pstmt = cnx.prepareStatement(UPDATE_UTILISATEUR);
 				pstmt.setString(1, nouvellesInfos.getPseudo());
 				pstmt.setString(2, nouvellesInfos.getNom());
 				pstmt.setString(3, nouvellesInfos.getPrenom());
@@ -95,6 +96,23 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 				pstmt.setString(8, nouvellesInfos.getVille());
 				pstmt.setString(9, nouvellesInfos.getMotDePasse());
 				pstmt.setInt(10, nouvellesInfos.getNoUtilisateur());
+				pstmt.executeUpdate();
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void supprimerUtilisateur(int noUtilisateur) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(DELETE_UTILISATEUR);
+				pstmt.setInt(1, noUtilisateur);
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (Exception e) {

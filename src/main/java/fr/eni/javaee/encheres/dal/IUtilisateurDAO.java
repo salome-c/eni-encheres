@@ -11,4 +11,5 @@ public interface IUtilisateurDAO {
 	public void modifierUtilisateur(Utilisateur nouvellesInfos);
 	public void supprimerUtilisateur(int noUtilisateur);
 	public Utilisateur getUtilisateurPseudo(int noUtilisateur);
+	public Utilisateur getUtilisateurByPseudo(String pseudo);
 }

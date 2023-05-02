@@ -15,7 +15,8 @@ import fr.eni.javaee.encheres.bll.UtilisateurManager;
 						"/inscription",
 						"/profil",
 						"/modifier-profil",
-						"/supprimer-profil"
+						"/supprimer-profil",
+						"/vendeur"
 		})
 public class ProfilServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -29,9 +30,11 @@ public class ProfilServlet extends HttpServlet {
 	  	if (request.getServletPath().equals("/inscription") || request.getServletPath().equals("/modifier-profil")) {
 		  	request.getRequestDispatcher("/WEB-INF/modifier-profil.jsp").forward(request, response);
 		} else if (request.getServletPath().equals("/profil")) {
-		  	request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+			afficherProfilUtilisateur(request, response);
 		} else if (request.getServletPath().equals("/supprimer-profil")) {
 			supprimerUtilisateur(request, response);
+		} else if (request.getServletPath().equals("/vendeur")) {
+			afficherProfilVendeur(request, response);
 		}
   }
 
@@ -122,5 +125,30 @@ public class ProfilServlet extends HttpServlet {
 	  } catch (IOException e) {
 		e.printStackTrace();
 	}
+  }
+  
+  private static void afficherProfilUtilisateur(HttpServletRequest request, HttpServletResponse response) {
+	  request.getSession().setAttribute("profil", request.getSession().getAttribute("utilisateur"));
+	  	try {
+	  		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+  }
+  
+  private static void afficherProfilVendeur(HttpServletRequest request, HttpServletResponse response) {
+	  	UtilisateurManager utilisateurManager = new UtilisateurManager();
+		String vendeurPseudo = request.getParameter("pseudo");
+		Utilisateur vendeur = utilisateurManager.getUtilisateurByPseudo(vendeurPseudo);
+		request.getSession().setAttribute("profil", vendeur);
+	  	try {
+	  		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
   }
 }

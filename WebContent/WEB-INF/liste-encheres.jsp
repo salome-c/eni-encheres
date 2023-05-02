@@ -74,7 +74,12 @@
 							<a href="#">${article.nomArticle}</a>
 							<p>Prix : ${article.miseAPrix} points</p>
 							<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-							<p>Vendeur : <a href="#">${vendeur.pseudo}</a></p>
+							<p>Vendeur : 
+								<c:if test="${not empty utilisateur}">
+									<a href="${pageContext.request.contextPath}/vendeur?pseudo=${vendeur.pseudo}">${vendeur.pseudo}</a>
+								</c:if>
+								<c:if test="${empty utilisateur}">${vendeur.pseudo}</c:if>
+							</p>
 						</section>
 					</section>
 				</li>

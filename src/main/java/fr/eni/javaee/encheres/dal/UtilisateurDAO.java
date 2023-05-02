@@ -148,6 +148,34 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 		return null;
 	}
 	
+	public Utilisateur getUtilisateurByPseudo(String pseudo) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_PSEUDO);
+				pstmt.setString(1, pseudo);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return new Utilisateur(rs.getString("pseudo"),
+							rs.getString("nom"),
+							rs.getString("prenom"),
+							rs.getString("email"),
+							rs.getString("telephone"),
+							rs.getString("rue"),
+							rs.getString("code_postal"),
+							rs.getString("ville"));
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public boolean rechercherPseudoExistant(String pseudo) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {

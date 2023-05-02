@@ -44,6 +44,10 @@ public class UtilisateurManager {
 		return this.utilisateurDAO.getUtilisateurPseudo(noUtilisateur);
 	}
 	
+	public Utilisateur getUtilisateurByPseudo(String pseudo) {
+		return this.utilisateurDAO.getUtilisateurByPseudo(pseudo);
+	}
+	
 	public static String crypterMotDePasse(String motDePasse) {
 		MessageDigest md;
 		StringBuffer sb = new StringBuffer();

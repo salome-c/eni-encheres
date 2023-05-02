@@ -14,39 +14,41 @@
 	<main class="w-25 mx-auto mt-3">
 		<section class="d-flex justify-content-between">
 			<p>Pseudo :</p>
-			<p>${utilisateur.pseudo}</p>
+			<p>${profil.pseudo}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Nom :</p>
-			<p>${utilisateur.nom}</p>
+			<p>${profil.nom}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Prénom :</p>
-			<p>${utilisateur.prenom}</p>
+			<p>${profil.prenom}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Email :</p>
-			<p>${utilisateur.email}</p>
+			<p>${profil.email}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Téléphone :</p>
-			<p>${utilisateur.telephone}</p>
+			<p>${profil.telephone}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Rue :</p>
-			<p>${utilisateur.rue}</p>
+			<p>${profil.rue}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Code postal :</p>
-			<p>${utilisateur.codePostal}</p>
+			<p>${profil.codePostal}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Ville :</p>
-			<p>${utilisateur.ville}</p>
+			<p>${profil.ville}</p>
 		</section>
-		<section class="d-flex justify-content-center">
-			<a href="${pageContext.request.contextPath}/modifier-profil"><button class="btn btn-lg">Modifier</button></a>
-		</section>
+		<c:if test="${profil.pseudo == utilisateur.pseudo}">
+			<section class="d-flex justify-content-center">
+				<a href="${pageContext.request.contextPath}/modifier-profil"><button class="btn btn-lg">Modifier</button></a>
+			</section>
+		</c:if>
 	</main>
 </body>
 </html>

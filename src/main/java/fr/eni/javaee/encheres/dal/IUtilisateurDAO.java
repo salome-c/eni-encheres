@@ -10,4 +10,5 @@ public interface IUtilisateurDAO {
 	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse);
 	public void modifierUtilisateur(Utilisateur nouvellesInfos);
 	public void supprimerUtilisateur(int noUtilisateur);
+	public Utilisateur getUtilisateurPseudo(int noUtilisateur);
 }

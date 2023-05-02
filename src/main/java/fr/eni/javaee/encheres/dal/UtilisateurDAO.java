@@ -18,6 +18,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? "
 			+ "WHERE no_utilisateur = ?";
 	private static final String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
+	private static final String SELECT_UTILISATEUR_PSEUDO_BY_NO = "SELECT pseudo FROM UTILISATEURS WHERE no_utilisateur = ?";
 
 	@Override
 	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
@@ -123,6 +124,28 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public Utilisateur getUtilisateurPseudo(int noUtilisateur) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_PSEUDO_BY_NO);
+				pstmt.setInt(1, noUtilisateur);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return new Utilisateur(noUtilisateur, rs.getString("pseudo"));
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override

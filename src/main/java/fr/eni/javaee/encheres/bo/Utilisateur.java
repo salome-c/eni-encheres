@@ -70,6 +70,11 @@ public class Utilisateur {
 		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(mot_de_passe);
 	}
 	
+	public Utilisateur(int no_utilisateur, String pseudo) {
+		this.no_utilisateur = no_utilisateur;
+		this.pseudo = pseudo;
+	}
+	
 	public int getNoUtilisateur() {
 		return this.no_utilisateur;
 	}

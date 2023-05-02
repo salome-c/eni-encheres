@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,39 +64,21 @@
 			</section>
 		</form>
 		<ul class="d-flex justify-content-between flex-wrap p-0">
-			<li class="card p-2 mb-3" style="width: 40rem;">
-				<section class="d-flex justify-content-between">
-					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
-					<section style="width: 20rem;">
-						<a href="#">Nom de l'article</a>
-						<p>Prix : 123 points</p>
-						<p>Fin de l'enchère : 01/01/2024</p>
-						<p>Vendeur : <a href="#">Vendeur1</a></p>
+			<c:forEach var="element" items="${articlesEtVendeurs}">
+				<c:set var="article" value="${element[0]}" />
+				<c:set var="vendeur" value="${element[1]}" />
+	   			<li class="card p-2 mb-3" style="width: 40rem;">
+					<section class="d-flex justify-content-between">
+						<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
+						<section style="width: 20rem;">
+							<a href="#">${article.nomArticle}</a>
+							<p>Prix : ${article.miseAPrix} points</p>
+							<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
+							<p>Vendeur : <a href="#">${vendeur.pseudo}</a></p>
+						</section>
 					</section>
-				</section>
-			</li>
-			<li class="card p-2 mb-3" style="width: 40rem;">
-				<section class="d-flex justify-content-between">
-					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
-					<section style="width: 20rem;">
-						<a href="#">Nom de l'article</a>
-						<p>Prix : 123 points</p>
-						<p>Fin de l'enchère : 01/01/2024</p>
-						<p>Vendeur : <a href="#">Vendeur1</a></p>
-					</section>
-				</section>
-			</li>
-			<li class="card p-2 mb-3" style="width: 40rem;">
-				<section class="d-flex justify-content-between">
-					<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
-					<section style="width: 20rem;">
-						<a href="#">Nom de l'article</a>
-						<p>Prix : 123 points</p>
-						<p>Fin de l'enchère : 01/01/2024</p>
-						<p>Vendeur : <a href="#">Vendeur1</a></p>
-					</section>
-				</section>
-			</li>
+				</li>
+			</c:forEach>
 		</ul>
 	</main>
 </body>

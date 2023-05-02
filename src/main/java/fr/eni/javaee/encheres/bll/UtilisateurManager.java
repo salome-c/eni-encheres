@@ -40,6 +40,10 @@ public class UtilisateurManager {
 		this.utilisateurDAO.supprimerUtilisateur(noUtilisateur);
 	}
 	
+	public Utilisateur getUtilisateurPseudo(int noUtilisateur) {
+		return this.utilisateurDAO.getUtilisateurPseudo(noUtilisateur);
+	}
+	
 	public static String crypterMotDePasse(String motDePasse) {
 		MessageDigest md;
 		StringBuffer sb = new StringBuffer();

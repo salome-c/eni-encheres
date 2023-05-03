@@ -10,7 +10,7 @@ public class Utilisateur {
 	private String email;
 	private String telephone;
 	private String rue;
-	private String code_postal;
+	private String codePostal;
 	private String ville;
 	private String mot_de_passe;
 	private int credit;
@@ -24,7 +24,7 @@ public class Utilisateur {
 			String email,
 			String telephone,
 			String rue,
-			String code_postal,
+			String codePostal,
 			String ville,
 			String mot_de_passe,
 			int credit,
@@ -37,7 +37,7 @@ public class Utilisateur {
 		this.email = email;
 		this.telephone = telephone;
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
 		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(mot_de_passe);
 		this.credit = credit;
@@ -56,7 +56,7 @@ public class Utilisateur {
 			String email,
 			String telephone,
 			String rue,
-			String code_postal,
+			String codePostal,
 			String ville,
 			String mot_de_passe) {
 		this.pseudo = pseudo;
@@ -65,7 +65,7 @@ public class Utilisateur {
 		this.email = email;
 		this.telephone = telephone;
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
 		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(mot_de_passe);
 	}
@@ -76,7 +76,7 @@ public class Utilisateur {
 			String email,
 			String telephone,
 			String rue,
-			String code_postal,
+			String codePostal,
 			String ville) {
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -84,7 +84,7 @@ public class Utilisateur {
 		this.email = email;
 		this.telephone = telephone;
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
 	}
 	
@@ -138,7 +138,7 @@ public class Utilisateur {
 	}
 	
 	public String getCodePostal() {
-		return this.code_postal;
+		return this.codePostal;
 	}
 	
 	public String getVille() {
@@ -173,8 +173,8 @@ public class Utilisateur {
 		this.rue = rue;
 	}
 
-	public void setCodePostal(String code_postal) {
-		this.code_postal = code_postal;
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
 	}
 
 	public void setVille(String ville) {

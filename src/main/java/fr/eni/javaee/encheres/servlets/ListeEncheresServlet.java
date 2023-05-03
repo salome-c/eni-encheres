@@ -30,12 +30,10 @@ public class ListeEncheresServlet extends HttpServlet {
     }
     
     private static void afficherEncheres(HttpServletRequest request, HttpServletResponse response) {
-    	ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-    	UtilisateurManager utilisateurManager = new UtilisateurManager();
-    	ArticleVendu[] articles = articleVenduManager.getArticlesVendus();
+    	ArticleVendu[] articles = ArticleVenduManager.getInstance().getArticlesVendus();
     	ArrayList<Object> articlesEtVendeurs = new ArrayList<Object>();
     	for (ArticleVendu article : articles) {
-    		Utilisateur vendeur = utilisateurManager.getUtilisateurPseudo(article.getNoUtilisateur());
+    		Utilisateur vendeur = UtilisateurManager.getInstance().getUtilisateurPseudo(article.getNoUtilisateur());
     		Object[] articleEtVendeur = {article, vendeur};
     		articlesEtVendeurs.add(articleEtVendeur);
     	}

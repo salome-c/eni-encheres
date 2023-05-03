@@ -11,8 +11,16 @@ import fr.eni.javaee.encheres.dal.IUtilisateurDAO;
 
 public class UtilisateurManager {
 	private IUtilisateurDAO utilisateurDAO;
+	private static UtilisateurManager instance;
 	
-	public UtilisateurManager() {
+	public static UtilisateurManager getInstance() {
+		if (instance == null) {
+			instance = new UtilisateurManager();
+		}
+		return instance;
+	}
+	
+	private UtilisateurManager() {
 		this.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 	
@@ -93,7 +101,7 @@ public class UtilisateurManager {
 		}
 		
 		if ((telephone != null && telephone != "" && !telephone.matches("^0[1-9]{1}[0-9]{8}$"))
-				|| !pseudo.matches("^[a-zA-Z0-9]+$") || !codePostal.matches("^[0-9]{1}[1-9]{1}[0-9]{3}$") || !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+				|| !pseudo.matches("^[a-zA-Z0-9]+$") || !codePostal.matches("^[0-9]{5}$") || !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 			return "Certains champs ne sont pas renseignés selon le format attendu";
 		}
 		

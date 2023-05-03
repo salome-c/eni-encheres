@@ -15,7 +15,7 @@
 			<ul class="d-flex align-items-center m-0">
 				<c:if test="${not empty utilisateur}">
 					<li class="list-inline-item"><a href="#">Enchères</a></li>
-					<li class="list-inline-item"><a href="#">Vendre un article</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/nouvelle-vente">Vendre un article</a></li>
 					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/profil">Mon profil</a></li>
 					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
 				</c:if>

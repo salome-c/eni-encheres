@@ -46,7 +46,7 @@
 			
 			<section class="w-50 d-flex justify-content-between my-3">
 				<label for="codePostal" class="w-25">Code postal* :</label>
-				<input type="text" pattern="[0-9]{1}[1-9]{1}[0-9]{3}" id="codePostal" name="codePostal" required value="${not empty utilisateur ? utilisateur.codePostal : ''}" class="w-50"><br>
+				<input type="text" pattern="[0-9]{5}" id="codePostal" name="codePostal" required value="${not empty utilisateur ? utilisateur.codePostal : ''}" class="w-50"><br>
 			</section>
 			
 			<section class="w-50 d-flex justify-content-between my-3">

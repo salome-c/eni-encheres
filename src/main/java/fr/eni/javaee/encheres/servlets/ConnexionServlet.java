@@ -39,14 +39,13 @@ public class ConnexionServlet extends HttpServlet {
   }
   
   private static void connecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
-	  UtilisateurManager utilisateurManager = new UtilisateurManager();
 	  Utilisateur utilisateur = new Utilisateur(request.getParameter("identifiant"), request.getParameter("motdepasse"));
-	  
+	  Utilisateur utilisateurConnecte = UtilisateurManager.getInstance().connecterUtilisateur(utilisateur);
+  
 	  try {
-		  Utilisateur utilisateurConnecte = utilisateurManager.connecterUtilisateur(utilisateur);
 		  if (utilisateurConnecte != null) {
 			  request.getSession().setAttribute("utilisateur", utilisateurConnecte);
-			  request.getRequestDispatcher("/WEB-INF/liste-encheres.jsp").forward(request, response);
+			  response.sendRedirect("liste-encheres");
 		  } else {
 			  request.setAttribute("erreurConnexion", "Identifiant ou mot de passe incorrect !");
 			  request.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
@@ -59,7 +58,7 @@ public class ConnexionServlet extends HttpServlet {
   private static void deconnecterUtilisateur(HttpServletRequest request, HttpServletResponse response) {
 	  try {
 		  request.getSession().invalidate();
-		  request.getRequestDispatcher("/liste-encheres").forward(request, response);
+		  response.sendRedirect("liste-encheres");
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }

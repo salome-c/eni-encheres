@@ -48,7 +48,6 @@ public class ProfilServlet extends HttpServlet {
   }
   
   private static void creerUtilisateur(HttpServletRequest request, HttpServletResponse response) {
-	  UtilisateurManager utilisateurManager = new UtilisateurManager();
 	  Utilisateur utilisateur = new Utilisateur(request.getParameter("pseudo"),
 			  request.getParameter("nom"),
 			  request.getParameter("prenom"),
@@ -58,9 +57,9 @@ public class ProfilServlet extends HttpServlet {
 			  request.getParameter("codePostal"),
 			  request.getParameter("ville"),
 			  request.getParameter("password"));
+	  String infoUtilisateurNonCree = UtilisateurManager.getInstance().creerUtilisateur(utilisateur);
 	  
 	  try {
-		  String infoUtilisateurNonCree = utilisateurManager.creerUtilisateur(utilisateur);
 		  if (infoUtilisateurNonCree == null) {
 			  request.getSession().setAttribute("utilisateur", utilisateur);
 			  response.sendRedirect("liste-encheres");
@@ -74,11 +73,10 @@ public class ProfilServlet extends HttpServlet {
   }
   
   private static void modifierUtilisateur(HttpServletRequest request, HttpServletResponse response) {	  
-	  UtilisateurManager utilisateurManager = new UtilisateurManager();
 	  Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
 	  int noUtilisateur = utilisateur.getNoUtilisateur();
 	  String motDePasseActuel = UtilisateurManager.crypterMotDePasse(request.getParameter("actualPassword"));
-	  boolean motDePasseActuelValide = utilisateurManager.verifierMotDePasse(noUtilisateur, motDePasseActuel);
+	  boolean motDePasseActuelValide = UtilisateurManager.getInstance().verifierMotDePasse(noUtilisateur, motDePasseActuel);
 	  if (motDePasseActuelValide) {
 		  Utilisateur nouvellesInfos = new Utilisateur(request.getParameter("pseudo"),
 				  request.getParameter("nom"),
@@ -92,10 +90,10 @@ public class ProfilServlet extends HttpServlet {
 		  nouvellesInfos.setNoUtilisateur(noUtilisateur);
 		  String nouveauMotDePasse = request.getParameter("password") == null || request.getParameter("password") == "" ? motDePasseActuel : UtilisateurManager.crypterMotDePasse(request.getParameter("password"));
 		  nouvellesInfos.setMotDePasse(nouveauMotDePasse);
+		  boolean verifierPseudoUnique = !utilisateur.getPseudo().equals(nouvellesInfos.getPseudo());
+		  boolean verifierEmailUnique = !utilisateur.getEmail().equals(nouvellesInfos.getEmail());
+		  String infoUtilisateurNonModifie = UtilisateurManager.getInstance().modifierUtilisateur(nouvellesInfos, verifierPseudoUnique, verifierEmailUnique);
 		  try {
-			  boolean verifierPseudoUnique = !utilisateur.getPseudo().equals(nouvellesInfos.getPseudo());
-			  boolean verifierEmailUnique = !utilisateur.getEmail().equals(nouvellesInfos.getEmail());
-			  String infoUtilisateurNonModifie = utilisateurManager.modifierUtilisateur(nouvellesInfos, verifierPseudoUnique, verifierEmailUnique);
 		 	  if (infoUtilisateurNonModifie == null) {
 		 		 request.getSession().setAttribute("utilisateur", nouvellesInfos);
 				 response.sendRedirect("liste-encheres");
@@ -117,9 +115,8 @@ public class ProfilServlet extends HttpServlet {
   }
   
   private static void supprimerUtilisateur(HttpServletRequest request, HttpServletResponse response) {
-	  UtilisateurManager utilisateurManager = new UtilisateurManager();
 	  Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
-	  utilisateurManager.supprimerUtilisateur(utilisateur.getNoUtilisateur());
+	  UtilisateurManager.getInstance().supprimerUtilisateur(utilisateur.getNoUtilisateur());
 	  try {
 		response.sendRedirect("deconnexion");
 	  } catch (IOException e) {
@@ -139,9 +136,8 @@ public class ProfilServlet extends HttpServlet {
   }
   
   private static void afficherProfilVendeur(HttpServletRequest request, HttpServletResponse response) {
-	  	UtilisateurManager utilisateurManager = new UtilisateurManager();
 		String vendeurPseudo = request.getParameter("pseudo");
-		Utilisateur vendeur = utilisateurManager.getUtilisateurByPseudo(vendeurPseudo);
+		Utilisateur vendeur = UtilisateurManager.getInstance().getUtilisateurByPseudo(vendeurPseudo);
 		request.getSession().setAttribute("profil", vendeur);
 	  	try {
 	  		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);

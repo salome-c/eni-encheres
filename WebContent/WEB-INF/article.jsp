@@ -9,7 +9,7 @@
 </head>
 <body class="container-fluid">
 	<header class="d-flex justify-content-between align-items-center">
-		<h1 class="m-0">ENI-Enchères</h1>
+		<h1 class="m-0"><a href="${pageContext.request.contextPath}/encheres-list">ENI-Enchères</a></h1>
 	</header>
 	<main class="w-25 mx-auto">
 		<h2 class="text-center my-3">Détail vente</h2>

@@ -10,7 +10,7 @@
 </head>
 <body class="container-fluid">
 	<header class="d-flex justify-content-between align-items-center">
-		<h1 class="m-0">ENI-Enchères</h1>
+		<h1 class="m-0"><a href="${pageContext.request.contextPath}/encheres-list">ENI-Enchères</a></h1>
 		<nav>
 			<ul class="d-flex align-items-center m-0">
 				<c:if test="${not empty utilisateur}">

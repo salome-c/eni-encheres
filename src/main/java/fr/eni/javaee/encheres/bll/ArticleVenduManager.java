@@ -28,11 +28,11 @@ public class ArticleVenduManager {
 		return articleVenduDAO.getArticlesVendus();
 	}
 	
-	public int creerVente(ArticleVendu article) {
-		return articleVenduDAO.creerVente(article);
+	public int addArticleVendu(ArticleVendu article) {
+		return articleVenduDAO.addArticleVendu(article);
 	}
 	
-	public String validerVente(ArticleVendu vente) {
+	public String checkArticleVendu(ArticleVendu vente) {
 		String nom = vente.getNomArticle();
 		String description = vente.getDescription();
 		String dateDebutEncheres = vente.getDateDebutEncheres();
@@ -51,15 +51,15 @@ public class ArticleVenduManager {
 		}
 		
 		Categorie[] categories = CategorieManager.getInstance().getCategories();
-		boolean categorieValide = false;
+		boolean categorieOk = false;
 		
-		for (int i = 0; i < categories.length && !categorieValide; i++) {
+		for (int i = 0; i < categories.length && !categorieOk; i++) {
 			if (categories[i].getNoCategorie() == noCategorie) {
-				categorieValide = true;
+				categorieOk = true;
 			}
 		}
 		
-		if (!categorieValide) {
+		if (!categorieOk) {
 			return "La catégorie renseignée n'est pas valide";
 		}
 		

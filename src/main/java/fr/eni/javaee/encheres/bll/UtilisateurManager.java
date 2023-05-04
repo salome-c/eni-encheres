@@ -24,28 +24,28 @@ public class UtilisateurManager {
 		this.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 	
-	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
-		return this.utilisateurDAO.connecterUtilisateur(utilisateur);
+	public Utilisateur connectUtilisateur(Utilisateur utilisateur) {
+		return this.utilisateurDAO.connectUtilisateur(utilisateur);
 	}
 	
-	public String creerUtilisateur(Utilisateur utilisateur) {
-		String infoUtilisateurNonValide = validerInfosUtilisateur(utilisateur, true, true);
-		if (infoUtilisateurNonValide == null) {
-			this.utilisateurDAO.creerUtilisateur(utilisateur);
+	public String addUtilisateur(Utilisateur utilisateur) {
+		String utilisateurNotOk = checkUtilisateur(utilisateur, true, true);
+		if (utilisateurNotOk == null) {
+			this.utilisateurDAO.addUtilisateur(utilisateur);
 		}
-		return infoUtilisateurNonValide;
+		return utilisateurNotOk;
 	}
 	
-	public String modifierUtilisateur(Utilisateur nouvellesInfos, boolean verifierPseudoUnique, boolean verifierMotDePasseUnique) {
-		String infoModificationNonValide = validerInfosUtilisateur(nouvellesInfos, verifierPseudoUnique, verifierMotDePasseUnique);
-		if (infoModificationNonValide == null) {
-			this.utilisateurDAO.modifierUtilisateur(nouvellesInfos);
+	public String updateUtilisateur(Utilisateur newData, boolean checkUniquePseudo, boolean checkUniqueMotDePasse) {
+		String utilisateurNotOk = checkUtilisateur(newData, checkUniquePseudo, checkUniqueMotDePasse);
+		if (utilisateurNotOk == null) {
+			this.utilisateurDAO.updateUtilisateur(newData);
 		}
-		return infoModificationNonValide;
+		return utilisateurNotOk;
 	}
 	
-	public void supprimerUtilisateur(int noUtilisateur) {
-		this.utilisateurDAO.supprimerUtilisateur(noUtilisateur);
+	public void deleteUtilisateur(int noUtilisateur) {
+		this.utilisateurDAO.deleteUtilisateur(noUtilisateur);
 	}
 	
 	public Utilisateur getUtilisateurPseudo(int noUtilisateur) {
@@ -56,7 +56,7 @@ public class UtilisateurManager {
 		return this.utilisateurDAO.getUtilisateurByPseudo(pseudo);
 	}
 	
-	public static String crypterMotDePasse(String motDePasse) {
+	public static String encryptPassword(String motDePasse) {
 		MessageDigest md;
 		StringBuffer sb = new StringBuffer();
 		
@@ -76,11 +76,11 @@ public class UtilisateurManager {
 		return sb.toString();
 	}
 	
-	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse) {
-		return this.utilisateurDAO.verifierMotDePasse(noUtilisateur, motDePasse);
+	public boolean checkPassword(int noUtilisateur, String motDePasse) {
+		return this.utilisateurDAO.checkPassword(noUtilisateur, motDePasse);
 	}
 	
-	private String validerInfosUtilisateur(Utilisateur utilisateur, boolean verifierPseudoUnique, boolean verifierEmailUnique) {
+	private String checkUtilisateur(Utilisateur utilisateur, boolean checkExistingPseudo, boolean checkExistingEmail) {
 		String pseudo = utilisateur.getPseudo();
 		String nom = utilisateur.getNom();
 		String prenom = utilisateur.getPrenom();
@@ -105,14 +105,14 @@ public class UtilisateurManager {
 			return "Certains champs ne sont pas renseignés selon le format attendu";
 		}
 		
-		if (verifierPseudoUnique) {
-			if (this.utilisateurDAO.rechercherPseudoExistant(pseudo)) {
+		if (checkExistingPseudo) {
+			if (this.utilisateurDAO.searchExistingPseudo(pseudo)) {
 				return "Ce pseudo est déjà utilisé";
 			}
 		}
 		
-		if (verifierEmailUnique) {
-			if (this.utilisateurDAO.rechercherEmailExistant(email)) {
+		if (checkExistingEmail) {
+			if (this.utilisateurDAO.searchExistingEmail(email)) {
 				return "Cet email est déjà utilisé";
 			}
 		}

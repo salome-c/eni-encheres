@@ -8,10 +8,10 @@ import fr.eni.javaee.encheres.bo.Retrait;
 
 public class RetraitDAO implements IRetraitDAO {
 	private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES(?, ?, ?, ?)";
-	private static final String SELECT_RETRAIT = "SELECT * FROM RETRAITS WHERE no_article = ?";
+	private static final String SELECT_RETRAIT_BY_NO = "SELECT * FROM RETRAITS WHERE no_article = ?";
 
 	@Override
-	public void creerRetrait(Retrait retrait) {
+	public void addRetrait(Retrait retrait) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT);
@@ -35,7 +35,7 @@ public class RetraitDAO implements IRetraitDAO {
 	public Retrait getRetrait(int noArticle) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
-				PreparedStatement pstmt = cnx.prepareStatement(SELECT_RETRAIT);
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_RETRAIT_BY_NO);
 				pstmt.setInt(1, noArticle);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {

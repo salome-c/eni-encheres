@@ -13,7 +13,7 @@
 	</header>
 	<main class="w-25 mx-auto">
 		<h2 class="text-center my-3">Nouvelle vente</h2>
-		<form action="${pageContext.request.contextPath}/nouvelle-vente" method="post" class="mt-3 mb-3">
+		<form action="${pageContext.request.contextPath}/new-article" method="post" class="mt-3 mb-3">
 			<label for="nom" class="w-25">Article* :</label>
 			<input type="text" name="nom" required><br>
 			
@@ -55,13 +55,13 @@
 				<input type="text" name="ville" value="${utilisateur.ville}" required class="w-25"><br>
 			</fieldset>
 			
-			<c:if test="${not empty requestScope.erreurCreationVenteOuRetrait}">
-			  <section class="w-100 text-center">${requestScope.erreurCreationVenteOuRetrait}</section>
+			<c:if test="${not empty requestScope.venteOrRetraitCreationError}">
+			  <section class="w-100 text-center">${requestScope.venteOrRetraitCreationError}</section>
 			</c:if>
 			
 			<section class="w-100 d-flex justify-content-around">
 				<input type="submit" value="Enregistrer" class="btn btn-lg">
-				<a href="${pageContext.request.contextPath}/liste-encheres"><input type="button" value="Annuler" class="btn btn-lg"></a>
+				<a href="${pageContext.request.contextPath}/encheres-list"><input type="button" value="Annuler" class="btn btn-lg"></a>
 			</section>
 		</form>
 	</main>

@@ -14,39 +14,39 @@
 	<main class="w-25 mx-auto mt-3">
 		<section class="d-flex justify-content-between">
 			<p>Pseudo :</p>
-			<p>${profil.pseudo}</p>
+			<p>${account.pseudo}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Nom :</p>
-			<p>${profil.nom}</p>
+			<p>${account.nom}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Prénom :</p>
-			<p>${profil.prenom}</p>
+			<p>${account.prenom}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Email :</p>
-			<p>${profil.email}</p>
+			<p>${account.email}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Téléphone :</p>
-			<p>${profil.telephone}</p>
+			<p>${account.telephone}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Rue :</p>
-			<p>${profil.rue}</p>
+			<p>${account.rue}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Code postal :</p>
-			<p>${profil.codePostal}</p>
+			<p>${account.codePostal}</p>
 		</section>
 		<section class="d-flex justify-content-between">
 			<p>Ville :</p>
-			<p>${profil.ville}</p>
+			<p>${account.ville}</p>
 		</section>
-		<c:if test="${profil.pseudo == utilisateur.pseudo}">
+		<c:if test="${account.pseudo == utilisateur.pseudo}">
 			<section class="d-flex justify-content-center">
-				<a href="${pageContext.request.contextPath}/modifier-profil"><button class="btn btn-lg">Modifier</button></a>
+				<a href="${pageContext.request.contextPath}/update-account"><button class="btn btn-lg">Modifier</button></a>
 			</section>
 		</c:if>
 	</main>

@@ -11,7 +11,7 @@ import fr.eni.javaee.encheres.bo.ArticleVendu;
 public class ArticleVenduDAO implements IArticleVenduDAO {
 	private static final String SELECT_ARTICLES = "SELECT * FROM ARTICLES_VENDUS";
 	private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?, ?, ?, ?, ?, NULL, ?, ?)";
-	private static final String SELECT_ARTICLE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
+	private static final String SELECT_ARTICLE_BY_NO = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	
 	@Override
 	public ArticleVendu[] getArticlesVendus() {
@@ -45,7 +45,7 @@ public class ArticleVenduDAO implements IArticleVenduDAO {
 	}
 	
 	@Override
-	public int creerVente(ArticleVendu article) {
+	public int addArticleVendu(ArticleVendu article) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);				
@@ -79,7 +79,7 @@ public class ArticleVenduDAO implements IArticleVenduDAO {
 	public ArticleVendu getArticleVendu(int noArticle) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
-				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE);
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE_BY_NO);
 				pstmt.setInt(1, noArticle);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {

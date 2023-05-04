@@ -113,6 +113,4 @@ public class ArticleVendu {
 	public void setNoCategorie(int noCategorie) {
 		this.noCategorie = noCategorie;
 	}
-	
-	
 }

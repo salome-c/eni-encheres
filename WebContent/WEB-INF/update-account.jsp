@@ -13,7 +13,7 @@
 	</header>
 	<main>
 		<h2 class="text-center my-3">Mon profil</h2>
-		<form action="${pageContext.request.contextPath}${empty utilisateur ? '/inscription' : '/modifier-profil'}" method="post" class="w-75 mx-auto d-flex flex-wrap">
+		<form action="${pageContext.request.contextPath}${empty utilisateur ? '/join' : '/update-account'}" method="post" class="w-75 mx-auto d-flex flex-wrap">
 			<section class="w-50 d-flex justify-content-between my-3">
 				<label for="pseudo" class="w-25">Pseudo* :</label>
 				<input type="text" pattern="[a-zA-Z0-9]+" id="pseudo" name="pseudo" required value="${not empty utilisateur ? utilisateur.pseudo : ''}" class="w-50"><br>
@@ -81,20 +81,20 @@
 			<section class="d-flex justify-content-around w-100 mt-3">
 				<c:if test="${empty utilisateur}">
 					<input type="submit" value="Créer" class="btn btn-lg">
-					<a href="${pageContext.request.contextPath}/liste-encheres"><input type="button" value="Annuler" class="btn btn-lg"></a>
+					<a href="${pageContext.request.contextPath}/encheres-list"><input type="button" value="Annuler" class="btn btn-lg"></a>
 				</c:if>
 				<c:if test="${not empty utilisateur}">
 					<input type="submit" value="Enregistrer" class="btn btn-lg">
-					<a href="${pageContext.request.contextPath}/supprimer-profil"><input type="button" value="Supprimer mon compte" class="btn btn-lg"></a>
+					<a href="${pageContext.request.contextPath}/delete-account"><input type="button" value="Supprimer mon compte" class="btn btn-lg"></a>
 				</c:if>
 			</section>
 
-			<c:if test="${not empty requestScope.erreurCreationProfil}">
-			  <section class="w-100 text-center">${requestScope.erreurCreationProfil}</section>
+			<c:if test="${not empty requestScope.accountCreationError}">
+			  <section class="w-100 text-center">${requestScope.accountCreationError}</section>
 			</c:if>
 			
-			<c:if test="${not empty requestScope.erreurModificationProfil}">
-			  <section class="w-100 text-center">${requestScope.erreurModificationProfil}</section>
+			<c:if test="${not empty requestScope.accountUpdateError}">
+			  <section class="w-100 text-center">${requestScope.accountUpdateError}</section>
 			</c:if>
 		</form>
 	</main>

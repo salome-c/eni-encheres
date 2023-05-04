@@ -8,7 +8,6 @@ import java.sql.Statement;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 
 public class UtilisateurDAO implements IUtilisateurDAO {
-
 	private static final String SELECT_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE (pseudo = ? OR email = ?) AND mot_de_passe = ?";
 	private static final String INSERT_UTILISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
@@ -21,7 +20,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	private static final String SELECT_UTILISATEUR_PSEUDO_BY_NO = "SELECT pseudo FROM UTILISATEURS WHERE no_utilisateur = ?";
 
 	@Override
-	public Utilisateur connecterUtilisateur(Utilisateur utilisateur) {
+	public Utilisateur connectUtilisateur(Utilisateur utilisateur) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR);
@@ -49,7 +48,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
-	public void creerUtilisateur(Utilisateur utilisateur) {
+	public void addUtilisateur(Utilisateur utilisateur) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(INSERT_UTILISATEUR, Statement.RETURN_GENERATED_KEYS);
@@ -83,7 +82,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
-	public void modifierUtilisateur(Utilisateur nouvellesInfos) {
+	public void updateUtilisateur(Utilisateur nouvellesInfos) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(UPDATE_UTILISATEUR);
@@ -109,7 +108,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 		}
 	}
 	
-	public void supprimerUtilisateur(int noUtilisateur) {
+	public void deleteUtilisateur(int noUtilisateur) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(DELETE_UTILISATEUR);
@@ -177,7 +176,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
-	public boolean rechercherPseudoExistant(String pseudo) {
+	public boolean searchExistingPseudo(String pseudo) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_PSEUDO);
@@ -199,7 +198,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
-	public boolean rechercherEmailExistant(String email) {
+	public boolean searchExistingEmail(String email) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_EMAIL);
@@ -221,7 +220,7 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 	}
 	
 	@Override
-	public boolean verifierMotDePasse(int noUtilisateur, String motDePasse) {
+	public boolean checkPassword(int noUtilisateur, String motDePasse) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_UTILISATEUR_BY_NO_AND_MOTDEPASSE);
@@ -242,5 +241,4 @@ public class UtilisateurDAO implements IUtilisateurDAO {
 		}
 		return false;
 	}
-
 }

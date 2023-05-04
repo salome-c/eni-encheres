@@ -3,7 +3,7 @@ package fr.eni.javaee.encheres.bo;
 import fr.eni.javaee.encheres.bll.UtilisateurManager;
 
 public class Utilisateur {
-	private int no_utilisateur;
+	private int noUtilisateur;
 	private String pseudo;
 	private String nom;
 	private String prenom;
@@ -12,12 +12,12 @@ public class Utilisateur {
 	private String rue;
 	private String codePostal;
 	private String ville;
-	private String mot_de_passe;
+	private String motDePasse;
 	private int credit;
 	private byte administrateur;
 	private String identifiant;
 	
-	public Utilisateur(int no_utilisateur,
+	public Utilisateur(int noUtilisateur,
 			String pseudo,
 			String nom,
 			String prenom,
@@ -26,11 +26,11 @@ public class Utilisateur {
 			String rue,
 			String codePostal,
 			String ville,
-			String mot_de_passe,
+			String motDePasse,
 			int credit,
 			byte administrateur,
 			String identifiant) {
-		this.no_utilisateur = no_utilisateur;
+		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -39,7 +39,7 @@ public class Utilisateur {
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(mot_de_passe);
+		this.motDePasse = UtilisateurManager.encryptPassword(motDePasse);
 		this.credit = credit;
 		this.administrateur = administrateur;
 		this.identifiant = identifiant;
@@ -47,27 +47,7 @@ public class Utilisateur {
 	
 	public Utilisateur(String identifiant, String motDePasse) {
 		this.identifiant = identifiant;
-		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(motDePasse);
-	}
-	
-	public Utilisateur(String pseudo,
-			String nom,
-			String prenom,
-			String email,
-			String telephone,
-			String rue,
-			String codePostal,
-			String ville,
-			String mot_de_passe) {
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.mot_de_passe = UtilisateurManager.crypterMotDePasse(mot_de_passe);
+		this.motDePasse = UtilisateurManager.encryptPassword(motDePasse);
 	}
 	
 	public Utilisateur(String pseudo,
@@ -88,111 +68,86 @@ public class Utilisateur {
 		this.ville = ville;
 	}
 	
-	public Utilisateur(int no_utilisateur, String pseudo) {
-		this.no_utilisateur = no_utilisateur;
+	public Utilisateur(int noUtilisateur, String pseudo) {
+		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 	}
 	
 	public int getNoUtilisateur() {
-		return this.no_utilisateur;
+		return this.noUtilisateur;
 	}
-
 	public int getCredit() {
 		return this.credit;
 	}
-
 	public byte getAdministrateur() {
 		return this.administrateur;
 	}
-
 	public String getIdentifiant() {
 		return this.identifiant;
 	}
-	
 	public String getMotDePasse() {
-		return this.mot_de_passe;
+		return this.motDePasse;
 	}
-	
 	public String getPseudo() {
 		return this.pseudo;
 	}
-	
 	public String getNom() {
 		return this.nom;
 	}
-	
 	public String getPrenom() {
 		return this.prenom;
 	}
-	
 	public String getEmail() {
 		return this.email;
 	}
-	
 	public String getTelephone() {
 		return this.telephone;
 	}
-	
 	public String getRue() {
 		return this.rue;
 	}
-	
 	public String getCodePostal() {
 		return this.codePostal;
 	}
-	
 	public String getVille() {
 		return this.ville;
 	}
-
-	public void setNoUtilisateur(int no_utilisateur) {
-		this.no_utilisateur = no_utilisateur;
+	public void setNoUtilisateur(int noUtilisateur) {
+		this.noUtilisateur = noUtilisateur;
 	}
-
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
 	public void setRue(String rue) {
 		this.rue = rue;
 	}
-
 	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
-
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
-
-	public void setMotDePasse(String mot_de_passe) {
-		this.mot_de_passe = mot_de_passe;
+	public void setMotDePasse(String motDePasse) {
+		this.motDePasse = motDePasse;
 	}
-
 	public void setCredit(int credit) {
 		this.credit = credit;
 	}
-
 	public void setAdministrateur(byte administrateur) {
 		this.administrateur = administrateur;
 	}
-
 	public void setIdentifiant(String identifiant) {
 		this.identifiant = identifiant;
 	}

@@ -18,35 +18,35 @@ import fr.eni.javaee.encheres.bo.Utilisateur;
 
 @WebServlet(
 		urlPatterns= {
-						"/nouvelle-vente",
-						"/vente"
+						"/new-article",
+						"/article"
 		})
-public class VenteServlet extends HttpServlet {
+public class ArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public VenteServlet() {
+    public ArticleServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getServletPath().equals("/nouvelle-vente")) {
-			afficherFormulaireNouvelleVente(request, response);
-		} else if (request.getServletPath().equals("/vente")) {
-			afficherDetailVente(request, response);
+		if (request.getServletPath().equals("/new-article")) {
+			displayNewArticle(request, response);
+		} else if (request.getServletPath().equals("/article")) {
+			displayArticleVendu(request, response);
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ajouterNouvelleVente(request, response);
+		addArticleVendu(request, response);
 	}
 	
-	private static void afficherFormulaireNouvelleVente(HttpServletRequest request, HttpServletResponse response) {
+	private static void displayNewArticle(HttpServletRequest request, HttpServletResponse response) {
 		Categorie[] categories = CategorieManager.getInstance().getCategories();
-		request.getSession().setAttribute("categories", categories);
+		request.setAttribute("categories", categories);
 		try {
-			request.getRequestDispatcher("/WEB-INF/nouvelle-vente.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/new-article.jsp").forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -54,7 +54,7 @@ public class VenteServlet extends HttpServlet {
 		}
 	}
 	
-	private static void ajouterNouvelleVente(HttpServletRequest request, HttpServletResponse response) {
+	private static void addArticleVendu(HttpServletRequest request, HttpServletResponse response) {
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
 		ArticleVendu vente = new ArticleVendu(request.getParameter("nom"),
 				request.getParameter("description"),
@@ -63,42 +63,30 @@ public class VenteServlet extends HttpServlet {
 				request.getParameter("dateDebutEnchere"),
 				request.getParameter("dateFinEnchere"),
 				utilisateur.getNoUtilisateur());
-		String infoVenteNonValide = ArticleVenduManager.getInstance().validerVente(vente);
-		if (infoVenteNonValide == null) {
+		String articleNotOk = ArticleVenduManager.getInstance().checkArticleVendu(vente);
+		if (articleNotOk == null) {
 			Retrait retrait = new Retrait(request.getParameter("rue"), request.getParameter("codePostal"), request.getParameter("ville"));
-			String infoRetraitNonValide = RetraitManager.getInstance().validerRetrait(retrait);
-			if (infoRetraitNonValide == null) {
-				int noArticleVendu = ArticleVenduManager.getInstance().creerVente(vente);
+			String retraitNotOk = RetraitManager.getInstance().checkRetrait(retrait);
+			if (retraitNotOk == null) {
+				int noArticleVendu = ArticleVenduManager.getInstance().addArticleVendu(vente);
 				retrait.setNoArticle(noArticleVendu);
-				RetraitManager.getInstance().creerRetrait(retrait);
+				RetraitManager.getInstance().addRetrait(retrait);
 				try {
-					response.sendRedirect("liste-encheres");
+					response.sendRedirect("encheres-list");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
-				request.setAttribute("erreurCreationVenteOuRetrait", infoRetraitNonValide);
-				try {
-					request.getRequestDispatcher("/WEB-INF/nouvelle-vente.jsp").forward(request, response);
-				} catch (ServletException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				request.setAttribute("venteOrRetraitCreationError", retraitNotOk);
+				displayNewArticle(request, response);
 			}
 		} else {
-			request.setAttribute("erreurCreationVenteOuRetrait", infoVenteNonValide);
-			try {
-				request.getRequestDispatcher("/WEB-INF/nouvelle-vente.jsp").forward(request, response);
-			} catch (ServletException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			request.setAttribute("venteOrRetraitCreationError", articleNotOk);
+			displayNewArticle(request, response);
 		}
 	}
 	
-	private static void afficherDetailVente(HttpServletRequest request, HttpServletResponse response) {
+	private static void displayArticleVendu(HttpServletRequest request, HttpServletResponse response) {
 		int noArticle = Integer.parseInt(request.getParameter("noArticle"));
 		ArticleVendu article = ArticleVenduManager.getInstance().getArticleVendu(noArticle);
 		Categorie categorie = CategorieManager.getInstance().getCategorie(article.getNoCategorie());
@@ -109,7 +97,7 @@ public class VenteServlet extends HttpServlet {
 		request.setAttribute("retrait", retrait);
 		request.setAttribute("vendeur", vendeur);
 		try {
-			request.getRequestDispatcher("/WEB-INF/vente.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/article.jsp").forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -15,12 +15,12 @@
 			<ul class="d-flex align-items-center m-0">
 				<c:if test="${not empty utilisateur}">
 					<li class="list-inline-item"><a href="#">Enchères</a></li>
-					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/nouvelle-vente">Vendre un article</a></li>
-					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/profil">Mon profil</a></li>
-					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/new-article">Vendre un article</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/account">Mon profil</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/logout">Déconnexion</a></li>
 				</c:if>
 				<c:if test="${empty utilisateur}">
-					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/connexion">S'inscrire - Se connecter</a></li>
+					<li class="list-inline-item"><a href="${pageContext.request.contextPath}/login">S'inscrire - Se connecter</a></li>
 				</c:if>
 			</ul>
 		</nav>
@@ -64,19 +64,19 @@
 			</section>
 		</form>
 		<ul class="d-flex justify-content-between flex-wrap p-0">
-			<c:forEach var="element" items="${articlesEtVendeurs}">
+			<c:forEach var="element" items="${articlesAndVendeurs}">
 				<c:set var="article" value="${element[0]}" />
 				<c:set var="vendeur" value="${element[1]}" />
 	   			<li class="card p-2 mb-3" style="width: 40rem;">
 					<section class="d-flex justify-content-between">
 						<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
 						<section style="width: 20rem;">
-							<a href="${pageContext.request.contextPath}/vente?noArticle=${article.noArticle}">${article.nomArticle}</a>
+							<a href="${pageContext.request.contextPath}/article?noArticle=${article.noArticle}">${article.nomArticle}</a>
 							<p>Prix : ${article.miseAPrix} points</p>
 							<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 							<p>Vendeur : 
 								<c:if test="${not empty utilisateur}">
-									<a href="${pageContext.request.contextPath}/vendeur?pseudo=${vendeur.pseudo}">${vendeur.pseudo}</a>
+									<a href="${pageContext.request.contextPath}/seller?pseudo=${vendeur.pseudo}">${vendeur.pseudo}</a>
 								</c:if>
 								<c:if test="${empty utilisateur}">${vendeur.pseudo}</c:if>
 							</p>

@@ -12,7 +12,7 @@
 		<h1 class="m-0">ENI-Enchères</h1>
 	</header>
 	<main class="w-50 mx-auto mt-3">
-		<form action="${pageContext.request.contextPath}/connexion" method="post" class="w-100">
+		<form action="${pageContext.request.contextPath}/login" method="post" class="w-100">
 			<fieldset class="d-flex justify-content-between my-3">
 				<label for="identifiant" class="w-25">Identifiant :</label>
 			    <input type="text" id="identifiant" name="identifiant" class="w-50"><br><br>
@@ -29,11 +29,11 @@
     		   	</section>
 		    </section>
   		</form>
-		<c:if test="${not empty requestScope.erreurConnexion}">
-		 	<section class="my-3 text-center">${requestScope.erreurConnexion}</section>
+		<c:if test="${not empty requestScope.connectionError}">
+		 	<section class="my-3 text-center">${requestScope.connectionError}</section>
 		</c:if>
   		<br>
-  		<a href="${pageContext.request.contextPath}/inscription"><button class="btn btn-lg w-100">Créer un compte</button></a>
+  		<a href="${pageContext.request.contextPath}/join"><button class="btn btn-lg w-100">Créer un compte</button></a>
 	</main>
 </body>
 </html>

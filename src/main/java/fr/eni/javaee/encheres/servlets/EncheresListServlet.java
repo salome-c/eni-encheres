@@ -12,34 +12,34 @@ import fr.eni.javaee.encheres.bll.UtilisateurManager;
 import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 
-@WebServlet("/liste-encheres")
-public class ListeEncheresServlet extends HttpServlet {
+@WebServlet("/encheres-list")
+public class EncheresListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public ListeEncheresServlet() {
+    public EncheresListServlet() {
         super();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     	      throws ServletException, IOException {
-    	afficherEncheres(request, response);
+    	displayEncheres(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     	      throws ServletException, IOException {
     }
     
-    private static void afficherEncheres(HttpServletRequest request, HttpServletResponse response) {
+    private static void displayEncheres(HttpServletRequest request, HttpServletResponse response) {
     	ArticleVendu[] articles = ArticleVenduManager.getInstance().getArticlesVendus();
-    	ArrayList<Object> articlesEtVendeurs = new ArrayList<Object>();
+    	ArrayList<Object> articlesAndVendeurs = new ArrayList<Object>();
     	for (ArticleVendu article : articles) {
     		Utilisateur vendeur = UtilisateurManager.getInstance().getUtilisateurPseudo(article.getNoUtilisateur());
-    		Object[] articleEtVendeur = {article, vendeur};
-    		articlesEtVendeurs.add(articleEtVendeur);
+    		Object[] articleAndVendeur = {article, vendeur};
+    		articlesAndVendeurs.add(articleAndVendeur);
     	}
-		request.getSession().setAttribute("articlesEtVendeurs", articlesEtVendeurs);
+		request.setAttribute("articlesAndVendeurs", articlesAndVendeurs);
     	try {
-			request.getRequestDispatcher("/WEB-INF/liste-encheres.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/encheres-list.jsp").forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -22,15 +22,15 @@ public class RetraitManager {
 		this.retraitDAO = DAOFactory.getRetraitDAO();
 	}
 	
-	public void creerRetrait(Retrait retrait) {
-		this.retraitDAO.creerRetrait(retrait);
+	public void addRetrait(Retrait retrait) {
+		this.retraitDAO.addRetrait(retrait);
 	}
 	
 	public Retrait getRetrait(int noArticle) {
 		return this.retraitDAO.getRetrait(noArticle);
 	}
 	
-	public String validerRetrait(Retrait retrait) {
+	public String checkRetrait(Retrait retrait) {
 		String rue = retrait.getRue();
 		String codePostal = retrait.getCodePostal();
 		String ville = retrait.getVille();

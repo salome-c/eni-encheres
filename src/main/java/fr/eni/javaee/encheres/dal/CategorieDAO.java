@@ -9,7 +9,7 @@ import fr.eni.javaee.encheres.bo.Categorie;
 
 public class CategorieDAO implements ICategorieDAO {
 	private static final String SELECT_CATEGORIES = "SELECT * FROM CATEGORIES";
-	private static final String SELECT_CATEGORIE = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
+	private static final String SELECT_CATEGORIE_BY_NO = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
 
 	@Override
 	public Categorie[] getCategories() {
@@ -38,7 +38,7 @@ public class CategorieDAO implements ICategorieDAO {
 	public Categorie getCategorie(int noCategorie) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			try {
-				PreparedStatement pstmt = cnx.prepareStatement(SELECT_CATEGORIE);
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_CATEGORIE_BY_NO);
 				pstmt.setInt(1, noCategorie);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {

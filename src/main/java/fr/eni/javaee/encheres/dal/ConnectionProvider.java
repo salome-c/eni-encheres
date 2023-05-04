@@ -11,9 +11,6 @@ import javax.sql.DataSource;
 abstract class ConnectionProvider {
 	private static DataSource dataSource;
 	
-	/**
-	 * Au chargement de la classe, la DataSource est recherchée dans l'arbre JNDI
-	 */
 	static
 	{
 		Context context;
@@ -26,12 +23,6 @@ abstract class ConnectionProvider {
 		}
 	}
 	
-	/**
-	 * Cette méthode retourne une connection opérationnelle issue du pool de connexion
-	 * vers la base de données. 
-	 * @return
-	 * @throws SQLException
-	 */
 	public static Connection getConnection() throws SQLException
 	{
 		return ConnectionProvider.dataSource.getConnection();

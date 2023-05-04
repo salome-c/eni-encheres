@@ -71,7 +71,7 @@
 					<section class="d-flex justify-content-between">
 						<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
 						<section style="width: 20rem;">
-							<a href="#">${article.nomArticle}</a>
+							<a href="${pageContext.request.contextPath}/vente?noArticle=${article.noArticle}">${article.nomArticle}</a>
 							<p>Prix : ${article.miseAPrix} points</p>
 							<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 							<p>Vendeur : 

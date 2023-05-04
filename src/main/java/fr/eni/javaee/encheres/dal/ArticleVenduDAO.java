@@ -11,6 +11,7 @@ import fr.eni.javaee.encheres.bo.ArticleVendu;
 public class ArticleVenduDAO implements IArticleVenduDAO {
 	private static final String SELECT_ARTICLES = "SELECT * FROM ARTICLES_VENDUS";
 	private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?, ?, ?, ?, ?, NULL, ?, ?)";
+	private static final String SELECT_ARTICLE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	
 	@Override
 	public ArticleVendu[] getArticlesVendus() {
@@ -72,5 +73,35 @@ public class ArticleVenduDAO implements IArticleVenduDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	@Override
+	public ArticleVendu getArticleVendu(int noArticle) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE);
+				pstmt.setInt(1, noArticle);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return new ArticleVendu(rs.getInt("no_article"),
+							rs.getString("nom_article"),
+							rs.getString("description"),
+							rs.getDate("date_debut_encheres"),
+							rs.getDate("date_fin_encheres"),
+							rs.getInt("prix_initial"),
+							rs.getInt("prix_vente"),
+							rs.getInt("no_utilisateur"),
+							rs.getInt("no_categorie"));
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

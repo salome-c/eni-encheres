@@ -26,6 +26,10 @@ public class RetraitManager {
 		this.retraitDAO.creerRetrait(retrait);
 	}
 	
+	public Retrait getRetrait(int noArticle) {
+		return this.retraitDAO.getRetrait(noArticle);
+	}
+	
 	public String validerRetrait(Retrait retrait) {
 		String rue = retrait.getRue();
 		String codePostal = retrait.getCodePostal();

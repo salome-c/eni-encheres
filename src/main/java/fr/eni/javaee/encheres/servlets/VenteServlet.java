@@ -10,12 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.javaee.encheres.bll.ArticleVenduManager;
 import fr.eni.javaee.encheres.bll.CategorieManager;
 import fr.eni.javaee.encheres.bll.RetraitManager;
+import fr.eni.javaee.encheres.bll.UtilisateurManager;
 import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Categorie;
 import fr.eni.javaee.encheres.bo.Retrait;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 
-@WebServlet("/nouvelle-vente")
+@WebServlet(
+		urlPatterns= {
+						"/nouvelle-vente",
+						"/vente"
+		})
 public class VenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,7 +30,11 @@ public class VenteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		afficherFormulaireNouvelleVente(request, response);
+		if (request.getServletPath().equals("/nouvelle-vente")) {
+			afficherFormulaireNouvelleVente(request, response);
+		} else if (request.getServletPath().equals("/vente")) {
+			afficherDetailVente(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -87,6 +96,25 @@ public class VenteServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private static void afficherDetailVente(HttpServletRequest request, HttpServletResponse response) {
+		int noArticle = Integer.parseInt(request.getParameter("noArticle"));
+		ArticleVendu article = ArticleVenduManager.getInstance().getArticleVendu(noArticle);
+		Categorie categorie = CategorieManager.getInstance().getCategorie(article.getNoCategorie());
+		Retrait retrait = RetraitManager.getInstance().getRetrait(noArticle);
+		Utilisateur vendeur = UtilisateurManager.getInstance().getUtilisateurPseudo(article.getNoUtilisateur());
+		request.setAttribute("article", article);
+		request.setAttribute("categorie", categorie);
+		request.setAttribute("retrait", retrait);
+		request.setAttribute("vendeur", vendeur);
+		try {
+			request.getRequestDispatcher("/WEB-INF/vente.jsp").forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 }

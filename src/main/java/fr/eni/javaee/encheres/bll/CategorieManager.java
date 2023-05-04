@@ -22,4 +22,8 @@ public class CategorieManager {
 	public Categorie[] getCategories() {
 		return this.categorieDAO.getCategories();
 	}
+	
+	public Categorie getCategorie(int noCategorie) {
+		return this.categorieDAO.getCategorie(noCategorie);
+	}
 }

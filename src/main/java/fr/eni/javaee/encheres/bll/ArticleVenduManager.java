@@ -73,5 +73,9 @@ public class ArticleVenduManager {
 		
 		return null;
 	}
+	
+	public ArticleVendu getArticleVendu(int noArticle) {
+		return this.articleVenduDAO.getArticleVendu(noArticle);
+	}
 
 }

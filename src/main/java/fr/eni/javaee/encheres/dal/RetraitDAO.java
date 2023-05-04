@@ -2,11 +2,13 @@ package fr.eni.javaee.encheres.dal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import fr.eni.javaee.encheres.bo.Retrait;
 
 public class RetraitDAO implements IRetraitDAO {
 	private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES(?, ?, ?, ?)";
+	private static final String SELECT_RETRAIT = "SELECT * FROM RETRAITS WHERE no_article = ?";
 
 	@Override
 	public void creerRetrait(Retrait retrait) {
@@ -27,5 +29,27 @@ public class RetraitDAO implements IRetraitDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public Retrait getRetrait(int noArticle) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_RETRAIT);
+				pstmt.setInt(1, noArticle);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return new Retrait(rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
+				}
+				pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				cnx.rollback();
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -71,7 +71,10 @@
 					<section class="d-flex justify-content-between">
 						<img src="image1.png" alt="Image article" style="width: 15rem; height: 15rem;">
 						<section style="width: 20rem;">
-							<a href="${pageContext.request.contextPath}/article?noArticle=${article.noArticle}">${article.nomArticle}</a>
+							<c:if test="${not empty utilisateur}">
+								<a href="${pageContext.request.contextPath}/article?noArticle=${article.noArticle}">${article.nomArticle}</a>
+							</c:if>
+							<c:if test="${empty utilisateur}"><p>${article.nomArticle}</p></c:if>
 							<p>Prix : ${article.miseAPrix} points</p>
 							<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 							<p>Vendeur : 
